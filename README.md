@@ -1,1 +1,1 @@
-# vue-notibar
+# Vue Notibar (Notification bar)
