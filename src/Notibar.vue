@@ -63,7 +63,7 @@ export default {
 	}
 
 	@media screen and (max-width: 576px) {
-		.snackbar {
+		.notibar {
 			bottom: 0;
 			border-radius: 0;
 			left: 0;
