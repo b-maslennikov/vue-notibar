@@ -1,0 +1,16 @@
+version: '{branch}.{build}'
+
+image: Ubuntu
+
+install:
+  - nvm use 12
+  - npm install
+
+build_script:
+  - npm run build
+
+test_script:
+  - npm run test:appveyor
+
+on_finish:
+  - sh: curl -F 'file=@junit.xml' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"

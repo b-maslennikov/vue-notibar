@@ -1,7 +1,7 @@
 import Notibar from './Notibar.vue'
 import DefaultOptions from './defaultOptions'
 
-export default  {
+export default {
 	install (Vue, options = {}) {
 
 		let NotibarComponent = Vue.extend(Notibar);

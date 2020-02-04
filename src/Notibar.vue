@@ -1,17 +1,26 @@
 <template>
 	<transition name="notibar">
-		<div v-if="visible" v-html="html" class="notibar" :style="style"></div>
+		<div 
+			v-if="visible"
+			:style="style"
+			class="notibar"
+		>
+			{{ text }}
+		</div>
 	</transition>
 </template>
 
 <script>
 export default {
 	props: {
-		defaultOptions: Object
+		defaultOptions: {
+			type: Object,
+			default: null
+		}
 	},
 	data() {
 		return {
-			html: null,
+			text: null,
 			visible: false,
 			timer: null,
 			options: null
@@ -24,12 +33,12 @@ export default {
 		}
 	},
 	methods: {
-		show(html, opts = {}) {
+		show(text, opts = {}) {
 			if(!this.timer) {
 				this.options = { ...this.defaultOptions, ...opts };
-				this.html = html;
+				this.text = text;
 				this.visible = true;
-				this.timer = setTimeout(_ => {
+				this.timer = setTimeout(() => {
 					this.visible = false;
 					this.timer = null;
 				}, this.options.time);
@@ -40,7 +49,7 @@ export default {
 </script>
 
 <style>
-	.notibar {
+	.notib1ar {
 		position: fixed;
 		left: 50%;
 		bottom: 20px;

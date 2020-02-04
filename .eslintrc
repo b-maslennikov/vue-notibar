@@ -1,0 +1,27 @@
+{
+	"env": {
+		"es6": true,
+		"browser": true,
+		"node": true,
+		"jest": true
+	},	
+	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "babel-eslint",
+		"sourceType": "module"
+	},
+	"extends": [
+		"plugin:vue/recommended"
+	],
+	"rules": {
+		"indent": [1, "tab"],
+		"no-console": 1,
+		"no-alert": 1,
+		"no-unused-vars": 1,
+		"no-undef": 2,
+		"no-multi-spaces": 1,
+		"no-var": 2,
+		"vue/no-v-html": 0,
+		"vue/html-indent": [1, "tab"]
+	}
+}

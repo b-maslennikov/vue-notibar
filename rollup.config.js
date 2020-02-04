@@ -1,5 +1,6 @@
 import vue from 'rollup-plugin-vue'
 import resolve from '@rollup/plugin-node-resolve'
+import { eslint } from 'rollup-plugin-eslint'
 import { terser } from 'rollup-plugin-terser'
 
 const name = 'VueNotibar'
@@ -25,6 +26,9 @@ module.exports = {
 			template: {
 				isProduction: true
 			}
+		}),
+		eslint({ 
+			throwOnError: true
 		})
 	],
 	output: [		

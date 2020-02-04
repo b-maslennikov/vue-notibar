@@ -15,10 +15,19 @@
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var script = {
 		props: {
-			defaultOptions: Object
+			defaultOptions: {
+				type: Object,
+				default: null
+			}
 		},
 		data() {
 			return {
@@ -40,7 +49,7 @@
 					this.options = { ...this.defaultOptions, ...opts };
 					this.html = html;
 					this.visible = true;
-					this.timer = setTimeout(_ => {
+					this.timer = setTimeout(() => {
 						this.visible = false;
 						this.timer = null;
 					}, this.options.time);
@@ -181,13 +190,13 @@
 	const __vue_script__ = script;
 
 	/* template */
-	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.style),domProps:{"innerHTML":_vm._s(_vm.html)}}):_vm._e()])};
+	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.style)},[_vm._v("\n\t\t"+_vm._s(_vm.html)+"\n\t")]):_vm._e()])};
 	var __vue_staticRenderFns__ = [];
 
 	  /* style */
 	  const __vue_inject_styles__ = function (inject) {
 	    if (!inject) return
-	    inject("data-v-2485157e_0", { source: ".notibar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity}.notibar-enter-active,.notibar-leave-active{transition:all .2s ease}.notibar-enter,.notibar-leave-to{opacity:0;transform:translateY(100%) translateX(-50%)}@media screen and (max-width:576px){.notibar{bottom:0;border-radius:0;left:0;transform:none}}", map: undefined, media: undefined });
+	    inject("data-v-07a20587_0", { source: ".notibar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity}.notibar-enter-active,.notibar-leave-active{transition:all .2s ease}.notibar-enter,.notibar-leave-to{opacity:0;transform:translateY(100%) translateX(-50%)}@media screen and (max-width:576px){.notibar{bottom:0;border-radius:0;left:0;transform:none}}", map: undefined, media: undefined });
 
 	  };
 	  /* scoped */
