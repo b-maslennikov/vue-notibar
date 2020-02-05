@@ -48,5 +48,9 @@
 		"vue-eslint-parser": "^7.0.0",
 		"vue-jest": "^3.0.5",
 		"vue-template-compiler": "^2.6.11"
+	},
+	"jest-junit": {   
+		"classNameTemplate": "{classname}",
+		"titleTemplate": "{title}"
 	}
 }
