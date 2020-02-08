@@ -35,18 +35,22 @@ export default {
 	methods: {
 		show(text, opts = {}) {
 			if(!this.timer) {
-				this.$emit('onShow');
 				this.options = { ...this.defaultOptions, ...opts };
+				this.emit(this.options.onShow);
 				this.text = text;
 				this.visible = true;
 				this.timer = setTimeout(() => {
-					this.text = null;
 					this.visible = false;
+					this.emit(this.options.onHide);
+					this.text = null;
 					this.timer = null;
 					this.options = null;
-					this.$emit('onHide');
 				}, this.options.time);
 			}
+		},
+		emit(func) {
+			if(func)
+				func();
 		}
 	}
 }

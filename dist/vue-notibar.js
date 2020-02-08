@@ -1,5 +1,5 @@
 /*!
- * vue-notibar v0.1.0
+ * vue-notibar v0.1.1
  * (c) 2019-2020 Boris Maslennikov
  * Released under the MIT License.
  */
@@ -46,18 +46,22 @@
 		methods: {
 			show(text, opts = {}) {
 				if(!this.timer) {
-					this.$emit('onShow');
 					this.options = { ...this.defaultOptions, ...opts };
+					this.emit(this.options.onShow);
 					this.text = text;
 					this.visible = true;
 					this.timer = setTimeout(() => {
-						this.text = null;
 						this.visible = false;
+						this.emit(this.options.onHide);
+						this.text = null;
 						this.timer = null;
 						this.options = null;
-						this.$emit('onHide');
 					}, this.options.time);
 				}
+			},
+			emit(func) {
+				if(func)
+					func();
 			}
 		}
 	};
@@ -200,7 +204,7 @@
 	  /* style */
 	  const __vue_inject_styles__ = function (inject) {
 	    if (!inject) return
-	    inject("data-v-1010a33d_0", { source: ".notibar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box}.notibar-enter-active,.notibar-leave-active{transition:all .2s ease}.notibar-enter,.notibar-leave-to{opacity:0;transform:translateY(100%) translateX(-50%)}@media screen and (max-width:576px){.notibar{margin-left:20px;width:calc(100% - 40px);transform:none;left:0}}", map: undefined, media: undefined });
+	    inject("data-v-222f1674_0", { source: ".notibar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box}.notibar-enter-active,.notibar-leave-active{transition:all .2s ease}.notibar-enter,.notibar-leave-to{opacity:0;transform:translateY(100%) translateX(-50%)}@media screen and (max-width:576px){.notibar{margin-left:20px;width:calc(100% - 40px);transform:none;left:0}}", map: undefined, media: undefined });
 
 	  };
 	  /* scoped */
@@ -231,7 +235,9 @@
 	var DefaultOptions = {
 		textColor: '#FFFFFF',
 		backgroundColor: '#323232',
-		time: 5000
+		time: 5000,
+		onShow: undefined,
+		onHide: undefined
 	};
 
 	var index = {

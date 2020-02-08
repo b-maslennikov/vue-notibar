@@ -36,10 +36,24 @@ describe('Notibar', () => {
 	})
 	
 	test('emmits \'onShow\' on show and \'onHide\' on hide', async () => {
-		wrapper.vm.show('', { time: 1000 })
+
+		let onShowFunc = jest.fn();
+		let onHideFunc = jest.fn();
+
+		wrapper.vm.show('', { onShow: onShowFunc, onHide: onHideFunc })
 		jest.runAllTimers();
-		expect(wrapper.emitted('onShow')).toBeTruthy()
-		expect(wrapper.emitted('onHide')).toBeTruthy()
+		expect(onShowFunc).toHaveBeenCalled();
+		expect(onHideFunc).toHaveBeenCalled();
+	})
+
+	test('not emmits \'onShow\' on show and \'onHide\' on hide by default', async () => {
+		let onShowFunc = jest.fn();
+		let onHideFunc = jest.fn();
+
+		wrapper.vm.show('')
+		jest.runAllTimers();
+		expect(onShowFunc).not.toHaveBeenCalled();
+		expect(onHideFunc).not.toHaveBeenCalled();
 	})
 
 	test('shows correct message', async () => {
