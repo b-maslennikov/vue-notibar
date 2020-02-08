@@ -35,12 +35,16 @@ export default {
 	methods: {
 		show(text, opts = {}) {
 			if(!this.timer) {
+				this.$emit('onShow');
 				this.options = { ...this.defaultOptions, ...opts };
 				this.text = text;
 				this.visible = true;
 				this.timer = setTimeout(() => {
+					this.text = null;
 					this.visible = false;
 					this.timer = null;
+					this.options = null;
+					this.$emit('onHide');
 				}, this.options.time);
 			}
 		}
@@ -49,7 +53,7 @@ export default {
 </script>
 
 <style>
-	.notib1ar {
+	.notibar {
 		position: fixed;
 		left: 50%;
 		bottom: 20px;
@@ -60,6 +64,7 @@ export default {
 		font-family: Roboto, sans-serif;
 		font-size: 16px;
 		will-change: opacity;
+		box-sizing: border-box;
 	}
 
 	.notibar-enter-active, .notibar-leave-active {
@@ -73,10 +78,10 @@ export default {
 
 	@media screen and (max-width: 576px) {
 		.notibar {
-			bottom: 0;
-			border-radius: 0;
-			left: 0;
+			margin-left: 20px;
+			width: calc(100% - 40px);
 			transform: none;
+			left: 0;
 		}
 	}
 </style>
