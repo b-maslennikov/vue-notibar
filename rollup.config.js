@@ -21,8 +21,6 @@ module.exports = {
 			extensions: ['.vue']
 		}),
 		vue({
-			css: true,
-			compileTemplate: true,
 			template: {
 				isProduction: true
 			}
@@ -31,7 +29,7 @@ module.exports = {
 			throwOnError: true
 		})
 	],
-	output: [		
+	output: [
 		{
 			name,
 			file: `dist/${packageName}.js`,
