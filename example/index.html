@@ -1,0 +1,18 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+<div id="app"></div>
+
+<script src="https://unpkg.com/vue@2.4.0/dist/vue.js"></script>
+<script src="../dist/vue-notibar.js"></script>
+
+<script>
+	Vue.use(VueNotibar)
+	new Vue({
+		el: '#app',
+		created() {
+			this.$notibar.add("Hi there! 👋", { time: 1000, textColor: "#fff", backgroundColor: "#f00" })
+			this.$notibar.add("I'm your notibar! 😎", { time: 1500, textColor: "#", backgroundColor: "#ffcc00" })
+			this.$notibar.add("Let's do some amazing things together! 🎉", { time: 3000, textColor: "#f2ff00", backgroundColor: "#5100ff" })
+		}
+	})
+</script>

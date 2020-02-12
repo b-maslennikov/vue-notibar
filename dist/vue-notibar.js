@@ -1,5 +1,5 @@
 /*!
- * vue-notibar v0.1.1
+ * vue-notibar v0.2.0
  * (c) 2019-2020 Boris Maslennikov
  * Released under the MIT License.
  */
@@ -8,19 +8,6 @@
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global = global || self, global.VueNotibar = factory());
 }(this, (function () { 'use strict';
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	var script = {
 		props: {
@@ -33,35 +20,33 @@
 			return {
 				text: null,
 				visible: false,
-				timer: null,
-				options: null
+				queue: []
 			}
 		},
 		computed: {
 			style() {
-				return `background-color: ${this.options.backgroundColor};`+
-					   `color: ${this.options.textColor};`;
+				let options = this.queue[0].options;
+				return `background-color: ${options.backgroundColor};`+
+					   `color: ${options.textColor};`
 			}
 		},
 		methods: {
-			show(text, opts = {}) {
-				if(!this.timer) {
-					this.options = { ...this.defaultOptions, ...opts };
-					this.emit(this.options.onShow);
-					this.text = text;
-					this.visible = true;
-					this.timer = setTimeout(() => {
-						this.visible = false;
-						this.emit(this.options.onHide);
-						this.text = null;
-						this.timer = null;
-						this.options = null;
-					}, this.options.time);
+			add(text, opts = {}) {
+				let options = { ...this.defaultOptions, ...opts };
+				this.queue.push({ text, options });
+				if(!this.visible) {
+					this.showNext();
 				}
 			},
-			emit(func) {
-				if(func)
-					func();
+			showNext() {
+				if(this.queue.length > 0) {
+					this.visible = true;
+					setTimeout(() => {
+						this.visible = false;
+						this.queue.splice(0, 1);
+						setTimeout(() => this.showNext(), 300);
+					}, this.queue[0].options.time);
+				}
 			}
 		}
 	};
@@ -198,13 +183,13 @@
 	const __vue_script__ = script;
 
 	/* template */
-	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.style)},[_vm._v("\n\t\t"+_vm._s(_vm.text)+"\n\t")]):_vm._e()])};
+	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"notibar-container"},[_c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.style)},[_vm._v("\n\t\t\t"+_vm._s(_vm.queue[0].text)+"\n\t\t")]):_vm._e()])],1)};
 	var __vue_staticRenderFns__ = [];
 
 	  /* style */
 	  const __vue_inject_styles__ = function (inject) {
 	    if (!inject) return
-	    inject("data-v-222f1674_0", { source: ".notibar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box}.notibar-enter-active,.notibar-leave-active{transition:all .2s ease}.notibar-enter,.notibar-leave-to{opacity:0;transform:translateY(100%) translateX(-50%)}@media screen and (max-width:576px){.notibar{margin-left:20px;width:calc(100% - 40px);transform:none;left:0}}", map: undefined, media: undefined });
+	    inject("data-v-46d4bb3a_0", { source: ".notibar-container{position:fixed;left:0;right:0;bottom:0;z-index:8;margin:8px;box-sizing:border-box;pointer-events:none;text-align:center}.notibar{display:inline-block;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box;pointer-events:none;text-align:center}.notibar-enter-active,.notibar-leave-active{transition:opacity .15s cubic-bezier(0,0,.2,1) 0s,transform .15s cubic-bezier(0,0,.2,1) 0s}.notibar-enter{opacity:0;transform:scale(.2)}.notibar-leave-to{opacity:0}@media screen and (max-width:576px){.notibar{width:100%}}", map: undefined, media: undefined });
 
 	  };
 	  /* scoped */
@@ -235,14 +220,11 @@
 	var DefaultOptions = {
 		textColor: '#FFFFFF',
 		backgroundColor: '#323232',
-		time: 5000,
-		onShow: undefined,
-		onHide: undefined
+		time: 5000
 	};
 
 	var index = {
 		install (Vue, options = {}) {
-
 			let NotibarComponent = Vue.extend(__vue_component__);
 			let notibar = new NotibarComponent({
 				propsData: {
@@ -253,10 +235,9 @@
 				}
 			});
 			notibar.$mount(document.body.appendChild(document.createElement('div')));
-
 			Vue.prototype.$notibar = {
-				show(html, options) {
-					notibar.show(html, options);
+				add(text, options) {
+					notibar.add(text, options);
 				}
 			};
 		}

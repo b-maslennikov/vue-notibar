@@ -16,8 +16,8 @@ export default {
 		notibar.$mount(document.body.appendChild(document.createElement('div')));
 
 		Vue.prototype.$notibar = {
-			show(html, options) {
-				notibar.show(html, options);
+			add(text, options) {
+				notibar.add(text, options);
 			}
 		}
 	}
