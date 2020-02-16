@@ -1,8 +1,8 @@
 <template>
-	<div class="notibar-container">
+	<div class="notibar-container" :style="containerStyle">
 		<transition name="notibar">
-			<div v-if="visible" :style="style" class="notibar">
-				{{ queue[0].text }}
+			<div v-if="visible" :style="notibarStyle" class="notibar">
+				{{ current.text }}
 			</div>
 		</transition>
 	</div>
@@ -20,14 +20,23 @@ export default {
 		return {
 			text: null,
 			visible: false,
-			queue: []
+			queue: [],
+			current: null
 		}
 	},
-	computed: {
-		style() {
-			let options = this.queue[0].options
-			return `background-color: ${options.backgroundColor};`+
-				   `color: ${options.textColor};`
+	computed: {		
+		containerStyle() {
+			if(this.current) {
+				return `text-align: ${this.current.options.position}`
+			}
+			return ''
+		},
+		notibarStyle() {
+			if(this.current) {
+				return `background-color: ${this.current.options.backgroundColor};`+
+					`color: ${this.current.options.textColor};`
+			}
+			return ''
 		}
 	},
 	methods: {
@@ -40,12 +49,16 @@ export default {
 		},
 		showNext() {
 			if(this.queue.length > 0) {
+				this.current = this.queue[0]
 				this.visible = true
 				setTimeout(() => {
 					this.visible = false
 					this.queue.splice(0, 1)
-					setTimeout(() => this.showNext(), 300)
-				}, this.queue[0].options.time)
+					setTimeout(() => {
+						this.current = null
+						this.showNext()
+					}, 300)
+				}, this.current.options.time)
 			}
 		}
 	}
@@ -62,7 +75,6 @@ export default {
 		margin: 8px;
 		box-sizing: border-box;
 		pointer-events: none;
-		text-align: center;
 	}
 
 	.notibar {

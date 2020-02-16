@@ -1,5 +1,5 @@
 /*!
- * vue-notibar v0.2.0
+ * vue-notibar v0.2.1
  * (c) 2019-2020 Boris Maslennikov
  * Released under the MIT License.
  */
@@ -20,14 +20,23 @@
 			return {
 				text: null,
 				visible: false,
-				queue: []
+				queue: [],
+				current: null
 			}
 		},
 		computed: {
-			style() {
-				let options = this.queue[0].options;
-				return `background-color: ${options.backgroundColor};`+
-					   `color: ${options.textColor};`
+			containerStyle() {
+				if(this.current) {
+					return `text-align: ${this.current.options.position}`
+				}
+				return ''
+			},
+			notibarStyle() {
+				if(this.current) {
+					return `background-color: ${this.current.options.backgroundColor};`+
+						`color: ${this.current.options.textColor};`
+				}
+				return ''
 			}
 		},
 		methods: {
@@ -40,12 +49,16 @@
 			},
 			showNext() {
 				if(this.queue.length > 0) {
+					this.current = this.queue[0];
 					this.visible = true;
 					setTimeout(() => {
 						this.visible = false;
 						this.queue.splice(0, 1);
-						setTimeout(() => this.showNext(), 300);
-					}, this.queue[0].options.time);
+						setTimeout(() => {
+							this.current = null;
+							this.showNext();
+						}, 300);
+					}, this.current.options.time);
 				}
 			}
 		}
@@ -183,13 +196,13 @@
 	const __vue_script__ = script;
 
 	/* template */
-	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"notibar-container"},[_c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.style)},[_vm._v("\n\t\t\t"+_vm._s(_vm.queue[0].text)+"\n\t\t")]):_vm._e()])],1)};
+	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"notibar-container",style:(_vm.containerStyle)},[_c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{staticClass:"notibar",style:(_vm.notibarStyle)},[_vm._v("\n\t\t\t"+_vm._s(_vm.current.text)+"\n\t\t")]):_vm._e()])],1)};
 	var __vue_staticRenderFns__ = [];
 
 	  /* style */
 	  const __vue_inject_styles__ = function (inject) {
 	    if (!inject) return
-	    inject("data-v-46d4bb3a_0", { source: ".notibar-container{position:fixed;left:0;right:0;bottom:0;z-index:8;margin:8px;box-sizing:border-box;pointer-events:none;text-align:center}.notibar{display:inline-block;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box;pointer-events:none;text-align:center}.notibar-enter-active,.notibar-leave-active{transition:opacity .15s cubic-bezier(0,0,.2,1) 0s,transform .15s cubic-bezier(0,0,.2,1) 0s}.notibar-enter{opacity:0;transform:scale(.2)}.notibar-leave-to{opacity:0}@media screen and (max-width:576px){.notibar{width:100%}}", map: undefined, media: undefined });
+	    inject("data-v-16092c0b_0", { source: ".notibar-container{position:fixed;left:0;right:0;bottom:0;z-index:8;margin:8px;box-sizing:border-box;pointer-events:none}.notibar{display:inline-block;border-radius:5px;padding:16px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box;pointer-events:none;text-align:center}.notibar-enter-active,.notibar-leave-active{transition:opacity .15s cubic-bezier(0,0,.2,1) 0s,transform .15s cubic-bezier(0,0,.2,1) 0s}.notibar-enter{opacity:0;transform:scale(.2)}.notibar-leave-to{opacity:0}@media screen and (max-width:576px){.notibar{width:100%}}", map: undefined, media: undefined });
 
 	  };
 	  /* scoped */
@@ -220,7 +233,8 @@
 	var DefaultOptions = {
 		textColor: '#FFFFFF',
 		backgroundColor: '#323232',
-		time: 5000
+		time: 5000,
+		position: 'center'
 	};
 
 	var index = {
