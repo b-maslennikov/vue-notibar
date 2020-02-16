@@ -1,5 +1,5 @@
 /*!
- * vue-notibar v0.2.1
+ * vue-notibar v0.2.2
  * (c) 2019-2020 Boris Maslennikov
  * Released under the MIT License.
  */
