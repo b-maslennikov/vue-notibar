@@ -31,6 +31,9 @@ module.exports = {
 		}),
 		cleanup()
 	],
+	watch: {
+		exclude: ['node_modules/**']
+	},
 	output: [
 		{
 			name,

@@ -10,9 +10,11 @@
 	new Vue({
 		el: '#app',
 		created() {
-			this.$notibar.add("Hi there! 👋", { time: 1000, textColor: "#fff", backgroundColor: "#f00", position: 'left' })
-			this.$notibar.add("I'm your notibar! 😎", { time: 1500, textColor: "#", backgroundColor: "#ffcc00" })
-			this.$notibar.add("Let's do some amazing things together! 🎉", { time: 3000, textColor: "#f2ff00", backgroundColor: "#5100ff", position: 'right' })
+			this.$notibar.add("Hi there! 👋", { time: 1500, textColor: "#fff", backgroundColor: "#f00", position: 'left', dismiss: { show: true } })
+			this.$notibar.add("I'm your notibar! 😎", { time: 1500, backgroundColor: "#ffcc00", textColor:"#000", dismiss: { show: true, color: '#000' } })
+			this.$notibar.add("Let's do some amazing things together! 🎉", { time: 3000, backgroundColor: "#1ab000", position: 'right' })
+			this.$notibar.add("I'm very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text", { time: 3000, textColor: "#f2ff00", backgroundColor: "#5100ff", position: 'left', dismiss: { show: true } })
+			this.$notibar.add('Close me', { time: null, dismiss: { show: true } })
 		}
 	})
 </script>

@@ -1,7 +1,7 @@
 {
 	"name": "vue-notibar",
 	"description": "Notification bar for the Vue apps",
-	"version": "0.2.2",
+	"version": "0.3.0",
 	"keywords": [
 		"snackbar",
 		"notification",
@@ -14,6 +14,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "rollup --config",
+		"watch": "rollup --config --watch",
 		"test": "jest",
 		"test:appveyor": "jest --reporters=\"default\" --reporters=\"jest-junit\"",
 		"eslint": "eslint src/* test/*"
@@ -46,6 +47,7 @@
 		"rollup-plugin-eslint": "^7.0.0",
 		"rollup-plugin-terser": "^5.2.0",
 		"rollup-plugin-vue": "^5.1.6",
+		"rollup-watch": "^4.3.1",
 		"vue-eslint-parser": "^7.0.0",
 		"vue-jest": "^3.0.5",
 		"vue-template-compiler": "^2.6.11"

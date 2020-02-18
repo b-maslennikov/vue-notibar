@@ -2,7 +2,17 @@
 	<div class="notibar-container" :style="containerStyle">
 		<transition name="notibar">
 			<div v-if="visible" :style="notibarStyle" class="notibar">
-				{{ current.text }}
+				<div class="text" :style="textStyle">
+					{{ current.text }}
+				</div>
+				<div class="actions">
+					<button class="dismiss" @click="dismiss" v-if="current.options.dismiss.show">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+							<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" :fill="current.options.dismiss.color" />
+							<path d="M0 0h24v24H0z" fill="none"/>
+						</svg>
+					</button>
+				</div>
 			</div>
 		</transition>
 	</div>
@@ -21,10 +31,20 @@ export default {
 			text: null,
 			visible: false,
 			queue: [],
-			current: null
+			current: null,
+			timeout: null
 		}
 	},
-	computed: {		
+	computed: {
+		textStyle() {
+			let marginRight = this.current.options.dismiss.show ? '50px' : 'none'
+			let paddingRight = this.current.options.dismiss.show ? '8px' : '16px'
+			if(this.current) {
+				return `margin-right: ${marginRight};`+
+					`padding-right: ${paddingRight};`
+			}
+			return ''
+		},
 		containerStyle() {
 			if(this.current) {
 				return `text-align: ${this.current.options.position}`
@@ -33,15 +53,20 @@ export default {
 		},
 		notibarStyle() {
 			if(this.current) {
-				return `background-color: ${this.current.options.backgroundColor};`+
-					`color: ${this.current.options.textColor};`
+				return `background-color: ${this.current.options.backgroundColor};` +
+					`color: ${this.current.options.textColor};`;
 			}
 			return ''
 		}
 	},
 	methods: {
+		mergeOptions(opts) {
+			let dismissOptions = { dismiss: { ...this.defaultOptions.dismiss, ...opts.dismiss } }
+			let mergedOptions = { ...opts, ...dismissOptions }
+			return { ...this.defaultOptions, ...mergedOptions }
+		},
 		add(text, opts = {}) {
-			let options = { ...this.defaultOptions, ...opts }
+			let options = this.mergeOptions(opts)
 			this.queue.push({ text, options })
 			if(!this.visible) {
 				this.showNext()
@@ -51,15 +76,20 @@ export default {
 			if(this.queue.length > 0) {
 				this.current = this.queue[0]
 				this.visible = true
-				setTimeout(() => {
-					this.visible = false
-					this.queue.splice(0, 1)
-					setTimeout(() => {
-						this.current = null
-						this.showNext()
-					}, 300)
-				}, this.current.options.time)
+				if(this.current.options.time) {
+					this.timeout = setTimeout(this.dismiss, this.current.options.time)
+				}
 			}
+		},
+		dismiss() {
+			this.visible = false
+			this.queue.splice(0, 1)
+			clearTimeout(this.timeout)
+			this.timeout = null
+			setTimeout(() => {
+				this.current = null
+				this.showNext()
+			}, 300)
 		}
 	}
 }
@@ -74,19 +104,57 @@ export default {
 		z-index: 8;
 		margin: 8px;
 		box-sizing: border-box;
-		pointer-events: none;
 	}
 
 	.notibar {
 		display: inline-block;
 		border-radius: 5px;
-		padding: 16px;
 		font-family: Roboto, sans-serif;
 		font-size: 16px;
 		will-change: opacity;
 		box-sizing: border-box;
-		pointer-events: none;
-		text-align: center;
+		text-align: justify;
+		position: relative;
+		max-width: 450px;
+
+		.text {
+			display: inline-block;
+			vertical-align: middle;
+			padding: 16px;
+		}
+
+		.actions {
+			display: inline-block;
+			vertical-align: middle;
+			position: absolute;
+			top: calc(50% - 18px);
+			right: 0;
+
+			.dismiss {
+				border: 0;
+				background-color: transparent;
+				cursor: pointer;
+				padding: 0;
+				width: 35px;
+				height: 35px;
+				margin: 0 12px 0 0;
+				outline: none;
+				border-radius: 30px;
+
+				svg {
+					width: 24px;
+					height: 24px;
+				}
+
+				&:hover {
+					background-color: rgba($color: #FFF, $alpha: 0.3);
+				}
+
+				&:active {
+					background-color: rgba($color: #FFF, $alpha: 0.5);
+				}
+			}
+		}
 	}
 
 	.notibar-enter-active,
@@ -104,9 +172,10 @@ export default {
 		opacity: 0;
 	}
 
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 520px) {
 		.notibar {
 			width: 100%;
+			min-width: 280px;
 		}
 	}
 </style>
