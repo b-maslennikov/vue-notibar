@@ -43,9 +43,9 @@ this.$notibar.add('message', options)
     time: Number, // default 5000. Set null to disable timeout
     position: String, // default 'center'. Possible values: 'left', 'center', 'right'
     dismiss: {
-		show: Boolean, // default false
-		color: String, // default '#FFFFFF'
-	}
+        show: Boolean, // default false
+        color: String, // default '#FFFFFF'
+    }
 }
 ```
 
