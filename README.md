@@ -26,16 +26,26 @@ or CDN
 import Vue from 'vue'
 import VueNotibar from 'vue-notibar'
 
+Vue.use(VueNotibar)
+// or
 Vue.use(VueNotibar, options)
+
+this.$notibar.add('message')
+// or
+this.$notibar.add('message', options)
 ```
 
-## Default options
+## Options
 ```javascript
 {
-	textColor: '#FFFFFF',
-	backgroundColor: '#323232',
-	time: 5000,
-	position: 'center'
+    textColor: String, // default '#FFFFFF'
+    backgroundColor: String, // default '#323232'
+    time: Number, // default 5000. Set null to disable timeout
+    position: String, // default 'center'. Possible values: 'left', 'center', 'right'
+    dismiss: {
+		show: Boolean, // default false
+		color: String, // default '#FFFFFF'
+	}
 }
 ```
 
