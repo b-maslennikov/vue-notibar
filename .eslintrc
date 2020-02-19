@@ -22,6 +22,7 @@
 		"no-multi-spaces": 1,
 		"no-var": 2,
 		"vue/no-v-html": 0,
-		"vue/html-indent": [1, "tab"]
+		"vue/html-indent": [1, "tab"],
+		"vue/max-attributes-per-line": 0
 	}
 }

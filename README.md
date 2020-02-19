@@ -27,11 +27,11 @@ import Vue from 'vue'
 import VueNotibar from 'vue-notibar'
 
 Vue.use(VueNotibar)
-// or
+// or with options
 Vue.use(VueNotibar, options)
 
 this.$notibar.add('message')
-// or
+// or with options
 this.$notibar.add('message', options)
 ```
 
