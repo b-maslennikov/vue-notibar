@@ -1,15 +1,14 @@
 <template>
 	<div class="notibar-container" :style="containerStyle">
 		<transition name="notibar">
-			<div v-if="visible" :style="notibarStyle" class="notibar">
+			<div v-if="visible" ref="notibar" :style="notibarStyle" class="notibar" tabindex="0">
 				<div class="text" :style="textStyle">
 					{{ current.text }}
 				</div>
 				<div class="actions">
-					<button class="dismiss" @click="dismiss" v-if="current.options.dismiss.show">
+					<button v-if="current.options.dismiss.show" class="dismiss" tabindex="0" @click="dismiss">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 							<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" :fill="current.options.dismiss.color" />
-							<path d="M0 0h24v24H0z" fill="none"/>
 						</svg>
 					</button>
 				</div>
@@ -76,6 +75,9 @@ export default {
 			if(this.queue.length > 0) {
 				this.current = this.queue[0]
 				this.visible = true
+
+				this.$nextTick(() => this.$refs.notibar.focus())
+				
 				if(this.current.options.time) {
 					this.timeout = setTimeout(this.dismiss, this.current.options.time)
 				}
@@ -116,6 +118,7 @@ export default {
 		text-align: justify;
 		position: relative;
 		max-width: 450px;
+		outline: none;
 
 		.text {
 			display: inline-block;
@@ -146,6 +149,7 @@ export default {
 					height: 24px;
 				}
 
+				&:focus,
 				&:hover {
 					background-color: rgba($color: #FFF, $alpha: 0.3);
 				}

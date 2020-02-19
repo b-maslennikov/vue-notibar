@@ -27,24 +27,24 @@ import Vue from 'vue'
 import VueNotibar from 'vue-notibar'
 
 Vue.use(VueNotibar)
-// or
+// or with options
 Vue.use(VueNotibar, options)
 
 this.$notibar.add('message')
-// or
+// or with options
 this.$notibar.add('message', options)
 ```
 
 ## Options
 ```javascript
 {
-    textColor: String, // default '#FFFFFF'
-    backgroundColor: String, // default '#323232'
-    time: Number, // default 5000. Set null to disable timeout
-    position: String, // default 'center'. Possible values: 'left', 'center', 'right'
+    textColor: String,        // default '#FFFFFF'
+    backgroundColor: String,  // default '#323232'
+    time: Number,             // default 5000. Set null to disable timeout
+    position: String,         // default 'center'. Possible values: 'left', 'center', 'right'
     dismiss: {
-        show: Boolean, // default false
-        color: String, // default '#FFFFFF'
+        show: Boolean,        // default false
+        color: String,        // default '#FFFFFF'
     }
 }
 ```
