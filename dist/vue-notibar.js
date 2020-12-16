@@ -1,12 +1,12 @@
 /*!
- * vue-notibar v0.3.1
+ * vue-notibar v0.3.2
  * (c) 2019-2020 Boris Maslennikov
  * Released under the MIT License.
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.VueNotibar = factory());
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.VueNotibar = factory());
 }(this, (function () { 'use strict';
 
 	var script = {
@@ -85,52 +85,41 @@
 		}
 	};
 
-	function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+	function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier , shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
 	    if (typeof shadowMode !== 'boolean') {
 	        createInjectorSSR = createInjector;
 	        createInjector = shadowMode;
 	        shadowMode = false;
 	    }
-	    // Vue.extend constructor export interop.
 	    const options = typeof script === 'function' ? script.options : script;
-	    // render functions
 	    if (template && template.render) {
 	        options.render = template.render;
 	        options.staticRenderFns = template.staticRenderFns;
 	        options._compiled = true;
-	        // functional template
 	        if (isFunctionalTemplate) {
 	            options.functional = true;
 	        }
 	    }
-	    // scopedId
 	    if (scopeId) {
 	        options._scopeId = scopeId;
 	    }
 	    let hook;
 	    if (moduleIdentifier) {
-	        // server build
 	        hook = function (context) {
-	            // 2.3 injection
 	            context =
-	                context || // cached call
-	                    (this.$vnode && this.$vnode.ssrContext) || // stateful
-	                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
-	            // 2.2 with runInNewContext: true
+	                context ||
+	                    (this.$vnode && this.$vnode.ssrContext) ||
+	                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext);
 	            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
 	                context = __VUE_SSR_CONTEXT__;
 	            }
-	            // inject component styles
 	            if (style) {
 	                style.call(this, createInjectorSSR(context));
 	            }
-	            // register component module identifier for async chunk inference
 	            if (context && context._registeredComponents) {
 	                context._registeredComponents.add(moduleIdentifier);
 	            }
 	        };
-	        // used by ssr in case component is cached and beforeCreate
-	        // never gets called
 	        options._ssrRegister = hook;
 	    }
 	    else if (style) {
@@ -144,7 +133,6 @@
 	    }
 	    if (hook) {
 	        if (options.functional) {
-	            // register for functional component in vue file
 	            const originalRender = options.render;
 	            options.render = function renderWithStyleInjection(h, context) {
 	                hook.call(context);
@@ -152,7 +140,6 @@
 	            };
 	        }
 	        else {
-	            // inject component registration as beforeCreate hook
 	            const existing = options.beforeCreate;
 	            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
 	        }
@@ -174,10 +161,7 @@
 	        style.ids.add(id);
 	        let code = css.source;
 	        if (css.map) {
-	            // https://developer.chrome.com/devtools/docs/javascript-debugging
-	            // this makes source maps inside style tags work properly in Chrome
 	            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-	            // http://stackoverflow.com/a/26603875
 	            code +=
 	                '\n/*# sourceMappingURL=data:application/json;base64,' +
 	                    btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
@@ -238,7 +222,7 @@
 	  
 
 	  
-	  const __vue_component__ = normalizeComponent(
+	  const __vue_component__ = /*#__PURE__*/normalizeComponent(
 	    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
 	    __vue_inject_styles__,
 	    __vue_script__,

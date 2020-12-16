@@ -7,6 +7,8 @@ describe('Notibar', () => {
 	let wrapper
 	let container
 
+	jest.spyOn(console, 'error').mockImplementation(() => {});
+
 	beforeEach(() => {
 		jest.useFakeTimers()
 		wrapper = mount(Notibar, {
@@ -18,7 +20,7 @@ describe('Notibar', () => {
 	})
 
 	test('is a Vue instance', () => {
-		expect(wrapper.isVueInstance()).toBeTruthy()
+		expect(wrapper.vm).toBeTruthy()
 	})
 
 	describe('Container', () => {
