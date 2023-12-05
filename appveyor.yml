@@ -1,6 +1,6 @@
 version: '{branch}.{build}'
 
-image: Ubuntu
+image: Ubuntu2204
 
 install:
   - nvm use 20
