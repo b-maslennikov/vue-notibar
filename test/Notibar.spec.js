@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Notibar from '../src/Notibar'
+import VueNotibar from '../src/VueNotibar'
 import DefaultOptions from '../src/defaultOptions'
 
 describe('Notibar', () => {
@@ -11,7 +11,7 @@ describe('Notibar', () => {
 
 	beforeEach(() => {
 		jest.useFakeTimers()
-		wrapper = mount(Notibar, {
+		wrapper = mount(VueNotibar, {
 			propsData: {
 				defaultOptions: DefaultOptions
 			}
@@ -55,6 +55,7 @@ describe('Notibar', () => {
 		})
 
 		test('uses timeout from the provided `options.time` in show() method', () => {
+			jest.spyOn(global, 'setTimeout')
 			wrapper.vm.add('', { time: 1234})
 			expect(setTimeout).toHaveBeenCalledTimes(1)
 			expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1234)

@@ -97,7 +97,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.notibar-container {
 		position: fixed;
 		left: 0;

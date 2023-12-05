@@ -1,9 +1,10 @@
-module.exports = {
-	moduleFileExtensions: [
+{
+	"testEnvironment": "jsdom",
+	"moduleFileExtensions": [
 		"js",
 		"vue"
 	],
-	transform: {
+	"transform": {
 		".*\\.(vue)$": "vue-jest",
 		"^.+\\.js$": "babel-jest"
 	}

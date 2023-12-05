@@ -1,8 +1,8 @@
-import vue from 'rollup-plugin-vue'
+import vue from 'rollup-plugin-vue2'
 import resolve from '@rollup/plugin-node-resolve'
 import eslint from '@rollup/plugin-eslint'
 import cleanup from 'rollup-plugin-cleanup'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import scss from 'rollup-plugin-scss'
 
 const name = 'VueNotibar'
@@ -22,7 +22,7 @@ module.exports = {
 		resolve({
 			extensions: ['.vue']
 		}),
-		scss(),
+		scss({ output: false, insert: true }),
 		vue({
 			template: {
 				isProduction: true

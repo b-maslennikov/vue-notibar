@@ -1,15 +1,35 @@
 /*!
- * vue-notibar v0.3.2
- * (c) 2019-2021 Boris Maslennikov
+ * vue-notibar v0.3.3
+ * (c) 2019-2023 Boris Maslennikov
  * Released under the MIT License.
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.VueNotibar = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
-	var script = {
+	function ___$insertStylesToHeader(css) {
+	  if (!css) {
+	    return
+	  }
+	  if (typeof window === 'undefined') {
+	    return
+	  }
+
+	  const style = document.createElement('style');
+
+	  style.setAttribute('type', 'text/css');
+	  style.innerHTML = css;
+	  document.head.appendChild(style);
+	  return css
+	}
+
+	___$insertStylesToHeader(".notibar-container {\n  position: fixed;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 8;\n  margin: 8px;\n  box-sizing: border-box;\n}\n\n.notibar {\n  display: inline-block;\n  border-radius: 5px;\n  font-family: Roboto, sans-serif;\n  font-size: 16px;\n  will-change: opacity;\n  box-sizing: border-box;\n  text-align: justify;\n  position: relative;\n  max-width: 450px;\n  outline: none;\n}\n.notibar .text {\n  display: inline-block;\n  vertical-align: middle;\n  padding: 16px;\n}\n.notibar .actions {\n  display: inline-block;\n  vertical-align: middle;\n  position: absolute;\n  top: calc(50% - 18px);\n  right: 0;\n}\n.notibar .actions .dismiss {\n  border: 0;\n  background-color: transparent;\n  cursor: pointer;\n  padding: 0;\n  width: 35px;\n  height: 35px;\n  margin: 0 12px 0 0;\n  outline: none;\n  border-radius: 30px;\n}\n.notibar .actions .dismiss svg {\n  width: 24px;\n  height: 24px;\n}\n.notibar .actions .dismiss:focus, .notibar .actions .dismiss:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.notibar .actions .dismiss:active {\n  background-color: rgba(255, 255, 255, 0.5);\n}\n\n.notibar-enter-active,\n.notibar-leave-active {\n  transition: opacity 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms, transform 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms;\n}\n\n.notibar-enter {\n  opacity: 0;\n  transform: scale(0.2);\n}\n\n.notibar-leave-to {\n  opacity: 0;\n}\n\n@media screen and (max-width: 520px) {\n  .notibar {\n    width: 100%;\n    min-width: 280px;\n  }\n}");
+
+	var VueNotibar = {
+	render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"notibar-container",style:(_vm.containerStyle)},[_c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{ref:"notibar",staticClass:"notibar",style:(_vm.notibarStyle),attrs:{"tabindex":"0"}},[_c('div',{staticClass:"text",style:(_vm.textStyle)},[_vm._v("\n\t\t\t\t"+_vm._s(_vm.current.text)+"\n\t\t\t")]),_vm._v(" "),_c('div',{staticClass:"actions"},[(_vm.current.options.dismiss.show)?_c('button',{staticClass:"dismiss",attrs:{"tabindex":"0"},on:{"click":_vm.dismiss}},[_c('svg',{attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 24 24"}},[_c('path',{attrs:{"d":"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z","fill":_vm.current.options.dismiss.color}})])]):_vm._e()])]):_vm._e()])],1)},
+	staticRenderFns: [],
 		props: {
 			defaultOptions: {
 				type: Object,
@@ -66,7 +86,9 @@
 				if(this.queue.length > 0) {
 					this.current = this.queue[0];
 					this.visible = true;
+
 					this.$nextTick(() => this.$refs.notibar.focus());
+					
 					if(this.current.options.time) {
 						this.timeout = setTimeout(this.dismiss, this.current.options.time);
 					}
@@ -85,156 +107,6 @@
 		}
 	};
 
-	function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier , shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-	    if (typeof shadowMode !== 'boolean') {
-	        createInjectorSSR = createInjector;
-	        createInjector = shadowMode;
-	        shadowMode = false;
-	    }
-	    const options = typeof script === 'function' ? script.options : script;
-	    if (template && template.render) {
-	        options.render = template.render;
-	        options.staticRenderFns = template.staticRenderFns;
-	        options._compiled = true;
-	        if (isFunctionalTemplate) {
-	            options.functional = true;
-	        }
-	    }
-	    if (scopeId) {
-	        options._scopeId = scopeId;
-	    }
-	    let hook;
-	    if (moduleIdentifier) {
-	        hook = function (context) {
-	            context =
-	                context ||
-	                    (this.$vnode && this.$vnode.ssrContext) ||
-	                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext);
-	            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-	                context = __VUE_SSR_CONTEXT__;
-	            }
-	            if (style) {
-	                style.call(this, createInjectorSSR(context));
-	            }
-	            if (context && context._registeredComponents) {
-	                context._registeredComponents.add(moduleIdentifier);
-	            }
-	        };
-	        options._ssrRegister = hook;
-	    }
-	    else if (style) {
-	        hook = shadowMode
-	            ? function (context) {
-	                style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
-	            }
-	            : function (context) {
-	                style.call(this, createInjector(context));
-	            };
-	    }
-	    if (hook) {
-	        if (options.functional) {
-	            const originalRender = options.render;
-	            options.render = function renderWithStyleInjection(h, context) {
-	                hook.call(context);
-	                return originalRender(h, context);
-	            };
-	        }
-	        else {
-	            const existing = options.beforeCreate;
-	            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-	        }
-	    }
-	    return script;
-	}
-
-	const isOldIE = typeof navigator !== 'undefined' &&
-	    /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-	function createInjector(context) {
-	    return (id, style) => addStyle(id, style);
-	}
-	let HEAD;
-	const styles = {};
-	function addStyle(id, css) {
-	    const group = isOldIE ? css.media || 'default' : id;
-	    const style = styles[group] || (styles[group] = { ids: new Set(), styles: [] });
-	    if (!style.ids.has(id)) {
-	        style.ids.add(id);
-	        let code = css.source;
-	        if (css.map) {
-	            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-	            code +=
-	                '\n/*# sourceMappingURL=data:application/json;base64,' +
-	                    btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-	                    ' */';
-	        }
-	        if (!style.element) {
-	            style.element = document.createElement('style');
-	            style.element.type = 'text/css';
-	            if (css.media)
-	                style.element.setAttribute('media', css.media);
-	            if (HEAD === undefined) {
-	                HEAD = document.head || document.getElementsByTagName('head')[0];
-	            }
-	            HEAD.appendChild(style.element);
-	        }
-	        if ('styleSheet' in style.element) {
-	            style.styles.push(code);
-	            style.element.styleSheet.cssText = style.styles
-	                .filter(Boolean)
-	                .join('\n');
-	        }
-	        else {
-	            const index = style.ids.size - 1;
-	            const textNode = document.createTextNode(code);
-	            const nodes = style.element.childNodes;
-	            if (nodes[index])
-	                style.element.removeChild(nodes[index]);
-	            if (nodes.length)
-	                style.element.insertBefore(textNode, nodes[index]);
-	            else
-	                style.element.appendChild(textNode);
-	        }
-	    }
-	}
-
-	/* script */
-	const __vue_script__ = script;
-
-	/* template */
-	var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"notibar-container",style:(_vm.containerStyle)},[_c('transition',{attrs:{"name":"notibar"}},[(_vm.visible)?_c('div',{ref:"notibar",staticClass:"notibar",style:(_vm.notibarStyle),attrs:{"tabindex":"0"}},[_c('div',{staticClass:"text",style:(_vm.textStyle)},[_vm._v("\n\t\t\t\t"+_vm._s(_vm.current.text)+"\n\t\t\t")]),_vm._v(" "),_c('div',{staticClass:"actions"},[(_vm.current.options.dismiss.show)?_c('button',{staticClass:"dismiss",attrs:{"tabindex":"0"},on:{"click":_vm.dismiss}},[_c('svg',{attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 24 24"}},[_c('path',{attrs:{"d":"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z","fill":_vm.current.options.dismiss.color}})])]):_vm._e()])]):_vm._e()])],1)};
-	var __vue_staticRenderFns__ = [];
-
-	  /* style */
-	  const __vue_inject_styles__ = function (inject) {
-	    if (!inject) return
-	    inject("data-v-5491154a_0", { source: ".notibar-container{position:fixed;left:0;right:0;bottom:0;z-index:8;margin:8px;box-sizing:border-box}.notibar{display:inline-block;border-radius:5px;font-family:Roboto,sans-serif;font-size:16px;will-change:opacity;box-sizing:border-box;text-align:justify;position:relative;max-width:450px;outline:0}.notibar .text{display:inline-block;vertical-align:middle;padding:16px}.notibar .actions{display:inline-block;vertical-align:middle;position:absolute;top:calc(50% - 18px);right:0}.notibar .actions .dismiss{border:0;background-color:transparent;cursor:pointer;padding:0;width:35px;height:35px;margin:0 12px 0 0;outline:0;border-radius:30px}.notibar .actions .dismiss svg{width:24px;height:24px}.notibar .actions .dismiss:focus,.notibar .actions .dismiss:hover{background-color:rgba(255,255,255,.3)}.notibar .actions .dismiss:active{background-color:rgba(255,255,255,.5)}.notibar-enter-active,.notibar-leave-active{transition:opacity .15s cubic-bezier(0,0,.2,1) 0s,transform .15s cubic-bezier(0,0,.2,1) 0s}.notibar-enter{opacity:0;transform:scale(.2)}.notibar-leave-to{opacity:0}@media screen and (max-width:520px){.notibar{width:100%;min-width:280px}}", map: undefined, media: undefined });
-
-	  };
-	  /* scoped */
-	  const __vue_scope_id__ = undefined;
-	  /* module identifier */
-	  const __vue_module_identifier__ = undefined;
-	  /* functional template */
-	  const __vue_is_functional_template__ = false;
-	  /* style inject SSR */
-	  
-	  /* style inject shadow dom */
-	  
-
-	  
-	  const __vue_component__ = /*#__PURE__*/normalizeComponent(
-	    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-	    __vue_inject_styles__,
-	    __vue_script__,
-	    __vue_scope_id__,
-	    __vue_is_functional_template__,
-	    __vue_module_identifier__,
-	    false,
-	    createInjector,
-	    undefined,
-	    undefined
-	  );
-
 	var DefaultOptions = {
 		textColor: '#FFFFFF',
 		backgroundColor: '#323232',
@@ -248,7 +120,7 @@
 
 	var index = {
 		install (Vue, options = {}) {
-			let NotibarComponent = Vue.extend(__vue_component__);
+			let NotibarComponent = Vue.extend(VueNotibar);
 			let notibar = new NotibarComponent({
 				propsData: {
 					defaultOptions: {
@@ -268,4 +140,4 @@
 
 	return index;
 
-})));
+}));
