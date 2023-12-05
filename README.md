@@ -1,4 +1,7 @@
-<h1 align="center">Vue Notibar (Notification bar)</h1>
+<p align="center" style="font-size:32px">Vue 2 Notibar</p>
+<p align="center" style="font-size:18px">Customizable notification bar</p>
+<hr>
+<br>
 
 <p align="center">
 	<a href="https://ci.appveyor.com/project/b-maslennikov/vue-notibar"><img alt="AppVeyor Build Status" src="https://img.shields.io/appveyor/build/b-maslennikov/vue-notibar/master?style=flat-square" /></a> 
@@ -17,8 +20,8 @@ $ npm i vue-notibar
 
 or CDN
 ```html
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/vue-notibar/dist/vue-notibar.js"></script>
+<script src="https://unpkg.com/vue@2.7.15/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-notibar/dist/vue-notibar.min.js"></script>
 ```
 
 # Usage
@@ -35,7 +38,7 @@ this.$notibar.add('message')
 this.$notibar.add('message', options)
 ```
 
-## Options
+# Options
 ```javascript
 {
     textColor: String,        // default '#FFFFFF'
