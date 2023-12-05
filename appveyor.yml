@@ -3,10 +3,11 @@ version: '{branch}.{build}'
 image: Ubuntu
 
 install:
-  - nvm use 12
+  - nvm use 20
   - npm install
 
 build_script:
+  - npm run eslint
   - npm run build
 
 test_script:
