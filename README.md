@@ -1,7 +1,4 @@
-<p align="center" style="font-size:32px">Vue 2 Notibar</p>
-<p align="center" style="font-size:18px">Customizable notification bar</p>
-<hr>
-<br>
+<h1 align="center">Vue 2 Notibar</h1>
 
 <p align="center">
 	<a href="https://ci.appveyor.com/project/b-maslennikov/vue-notibar"><img alt="AppVeyor Build Status" src="https://img.shields.io/appveyor/build/b-maslennikov/vue-notibar/master?style=flat-square" /></a> 
@@ -12,6 +9,10 @@
 	<a href="https://www.npmjs.com/package/vue-notibar"><img alt="License" src="https://img.shields.io/npm/l/vue-notibar?style=flat-square"></a>
 </p>
 
+# Description
+Customizable notification bar for Vue 2 applications.
+
+
 # Installation
 Using npm
 ```shell
@@ -20,7 +21,7 @@ $ npm i vue-notibar
 
 or CDN
 ```html
-<script src="https://unpkg.com/vue@2.7.15/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
 <script src="https://unpkg.com/vue-notibar/dist/vue-notibar.min.js"></script>
 ```
 
