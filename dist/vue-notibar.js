@@ -1,6 +1,6 @@
 /*!
- * vue-notibar v0.3.6
- * (c) 2019-2023 Boris Maslennikov
+ * vue-notibar v0.3.7
+ * (c) 2019-2024 Boris Maslennikov
  * Released under the MIT License.
  */
 (function (global, factory) {

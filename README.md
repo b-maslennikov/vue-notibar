@@ -21,7 +21,7 @@ $ npm i vue-notibar
 
 or CDN
 ```html
-<script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue@2.7.16/dist/vue.min.js"></script>
 <script src="https://unpkg.com/vue-notibar/dist/vue-notibar.min.js"></script>
 ```
 
